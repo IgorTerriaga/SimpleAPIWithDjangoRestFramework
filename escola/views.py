@@ -5,6 +5,7 @@ from escola.serializer import (
     CursoSerializer,
     MatriculaSerializer,
     ListaMatriculasAlunoSerializer,
+    ListaAlunosMatriculadosSerializer,
 )
 
 
@@ -31,8 +32,19 @@ class MatriculaViewSet(viewsets.ModelViewSet):
 
 class ListaMatriculasAluno(generics.ListAPIView):
     """Listando as matrículas de um alun@"""
+
     def get_queryset(self):
-        """ filtrando pelo id do aluno """
+        """filtrando pelo id do aluno"""
         queryset = Matricula.objects.filter(aluno_id=self.kwargs["pk"])
         return queryset
+
     serializer_class = ListaMatriculasAlunoSerializer
+
+
+class ListaAlunosMatriculados(generics.ListAPIView):
+    """Listando alunos e alunas matriculados em um curso"""
+
+    def get_queryset(self):
+        queryset = Matricula.objects.filter(curso_id=self.kwargs["pk"])
+        return queryset
+    serializer_class = ListaAlunosMatriculadosSerializer
